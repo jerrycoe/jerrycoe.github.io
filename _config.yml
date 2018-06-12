@@ -1,7 +1,9 @@
+site.github: [metadata]
 name: Jerry Coe
 markdown: kramdown
 github_username: jerrycoe
-theme: jekyll-theme-cayman
 repository: jerrycoe.github.io
 plugins:
   - "jekyll-github-metadata"
+sass:
+  style: compressed

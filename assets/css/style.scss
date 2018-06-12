@@ -1,0 +1,40 @@
+---
+---
+$font-stack-header: 'Roboto Slab', serif;
+$font-stack-text: 'Anonymous Pro', monospace;
+$color-tan: rgba(209,207,190,1);
+$color-pale-green: rgba(184,194,178,1);
+$color-pale-blue: rgba(139,164,159,1);
+$color-purple: rgba(68,59,94,1);
+$color-red: rgba(247,59,86,1);
+$color-iterm-green: rgba(139,194,73,1);
+$color-iterm-blue: rgba(38,198,218,1);
+h1, h2, h3, h4, h5, h6{
+	font-family: $font-stack-header;
+}
+div, p, li, ul, pre, ol, a, span{
+	font-family: $font-stack-text;
+}
+body{
+	background-color: $color-purple;
+}
+header{
+	margin: 20px 0;
+}
+header img{
+	width:50%;
+	height:auto;
+	display:block;
+	margin: 0 auto;
+	border-radius:500px;
+}
+header h1{
+	font-size: 1em;
+	font-family: $font-stack-text;
+	color: white;
+	text-align:center;
+	margin-top: 30px;
+	span{
+		color: $color-iterm-blue;
+	}
+}
