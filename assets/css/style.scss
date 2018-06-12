@@ -38,3 +38,13 @@ header h1{
 		color: $color-iterm-blue;
 	}
 }
+#public-repo-list{
+	color:$color-purple;
+	li{
+		background-color: transparent;
+		border:none;
+		padding-top:0;
+		padding-bottom:5px;
+		color: $color-iterm-blue;
+	}
+}
