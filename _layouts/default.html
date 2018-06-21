@@ -5,10 +5,10 @@
 			<title>{{ site.github.project_title }}</title>
 			<!--[if IE]><link rel="shortcut icon" href="assets/images/favicon.ico"><![endif]-->
 			<link rel="icon" href="assets/images/favicon.png">
-			<link href="https://fonts.googleapis.com/css?family=Anonymous+Pro:400,700|Roboto+Slab:400,700" rel="stylesheet">
+			<link href="https://fonts.googleapis.com/css?family=Anonymous+Pro:400,700|Roboto+Slab:100,300,400,700" rel="stylesheet">
 			<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 			<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-			<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+			<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js" integrity="sha384-u/bQvRA/1bobcXlcEYpsEdFVK/vJs3+T+nXLsBYJthmdBuavHvAW6UsmqO2Gd/F9" crossorigin="anonymous"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" crossorigin="anonymous"></script>
@@ -18,34 +18,83 @@
 			<header>
 				<div class="container">
 					<div class="row">
-						<div class="col-md-3">
-							<img src="assets/images/profile.jpg">
-						</div>
-						<div class="col-md-9">
-							<h1>{{ site.github.project_title }} [<span>master</span>] &#9889;</h1>
+						<div class="col-md-1">
+							<i id="menu-btn" class="fas fa-bars"></i>
 						</div>
 					</div>
+					<div class="row" id="profile-title-box">
+						<div class="col-md-12">
+							<div id="inner-photo-box">
+								<img src="assets/images/profile.jpg">
+							</div>
 
-
+							<div id="inner-title-box">
+								<h1>{{ site.github.project_title }}</h1>
+								<h3>{{ page.tagline }}</h3>
+							</div>
+						</div>
+					</div>
 				</div>
 			</header>
 			<div class="container">
-				{% assign sorted = site.github.public_repositories | sort:"created_at" | reverse %}
-				<div class="card">
-					<div class="card-body">
-						<h5 class="card-title">Public Repos</h5>
+				<div id="sub-header" class="d-flex flex-row align-content-center">
+					<div id="sub-header-repos" class="flex-fill sub-header-item">
+						<div class="sub-header-item-inner d-flex align-items-center flex-wrap">
+							<h5 class="align-self-center">12</h5><span>repositories</span>
+						</div>
+						
 					</div>
-					<ul id="public-repo-list" class="list-group  list-group-flush">
-						{% for repos in sorted %}
-						  <li class="list-group-item">
-						  	{{ repos.name }}
-						  	<span class="badge badge-primary badge-pill">14</span>
-						  </li>
-						{% endfor %}
-					</ul>
+					<div id="sub-header-gists" class="flex-fill sub-header-item">
+						<div class="sub-header-item-inner d-flex align-items-center flex-wrap">
+							<h5 class="align-self-center">4</h5><span>gists</span>
+						</div>
+						
+					</div>
+					<div id="sub-header-languages" class="flex-fill sub-header-item">
+						<div class="sub-header-item-inner d-flex align-items-center flex-wrap">
+							<h5 class="align-self-center">8</h5><span>languages</span>
+						</div>
+						
+					</div>
 				</div>
+			</div>
+			<div id="main-content">
+				<div class="container">
+					{% assign sorted = site.github.public_repositories | sort:"created_at" | reverse %}
+					{% assign sorted = site.github.public_repositories | sort:"created_at" | reverse %}
+					<div class="row">
+						<div id="public-repo-box" class="col-md-8"> 	
+							<h5>
+								<i class="fas fa-database"></i>
+								public repos
+							</h5>
+							<ul id="public-repo-list" class="list-group list-group-flush">
+								{% for repos in sorted %}
+									{% if forloop.index0 < 3 %}
+										<li class="list-group-item list-item-preview" data-repo-id="{{ repos.id }}">
+										  	<a href="#">{{ repos.name }}<i class="fas fa-sort-down"></i></a>
+										</li>
+										{% else %}
+										<li class="list-group-item list-item-hidden" data-repo-id="{{ repos.id }}">
+										  	<a href="#">{{ repos.name }}<i class="fas fa-sort-down"></i></a>
+										</li>
+									{% endif %}
+								{% endfor %}
 
-			</div><!-- /.container -->
+							</ul>
+						</div>
+						<div id="public-gist-box" class="col-md-4"> 	
+							<h5>
+								<i class="fas fa-file-code"></i>
+								public gists
+							</h5>
+							<ul id="public-gist-list" class="list-group list-group-flush">
+							</ul>
+						</div>
+					</div><!-- /.row -->
+				</div><!-- /.container -->
+			</div><!-- /#main-content -->
+
 			<div class="container">
 			<footer>
 	    		<ul>
@@ -58,49 +107,55 @@
 				$(document).ready(function(){
 					var site = {{ site.github | jsonify }};
 					var repos = {{ site.github.public_repositories | jsonify }};
-					var newArr = [];
+					var ajaxResult = [];
+				   $.ajax({
+					  method: "GET",
+					  cache: true,
+					  //url: "https://api.github.com/repos/jerrycoe/"+repos[i].name+"/stats/contributors",
+					  url: "https://api.github.com/users/jerrycoe/gists"
+					})
+					.done(function( msg ) {
+						console.log(msg[0].description);
+						for(var i = 0; i < msg.length; i++){
+							if(i < 3){
+								$("#public-gist-list").append('<li class="list-group-item list-item-preview" data-gist-id="'+msg[i].id+'"><a href="'+msg[i].html_url+'">'+msg[i].description.substring(0,27)+'...'+'</a></li>')
+							}else{
+								$("#public-gist-list").append('<li class="list-group-item list-item-hidden" data-gist-id="'+msg[i].id+'"><a href="'+msg[i].html_url+'">'+msg[i].description.substring(0,27)+'...'+'</a></li>')
+							}
+						}
+					});
 					for ( var i = 0; i < repos.length; i++ )
 					{
-						//console.log(repos[i].created_at);
-						newArr.push(repos[i].created_at);
+					   $.ajax({
+						  method: "GET",
+						  cache: true,
+						  async: false,
+						  //url: "https://api.github.com/repos/jerrycoe/"+repos[i].name+"/stats/contributors",
+						  url: "https://api.github.com/repos/jerrycoe/"+repos[i].name+"/languages",
+						  repos: repos,
+						  index: i,
+						})
+						.done(function( msg ) {
+							//$('*[data-repo-id="'+this.repos[this.index].id+'"] span').text(msg[0].total);
+							//console.log(msg)
+							ajaxResult.push(msg);
+						});
 					}
-					function insertionSort(array) {
-					  for(var i = 0; i < array.length; i++) {
-					    var temp = array[i];
-					    var j = i - 1;
-					    while (j >= 0 && array[j] > temp) {
-					      array[j + 1] = array[j];
-					      j--;
-					    }
-					    array[j + 1] = temp;
-					  }
-					  return array;
-					}
-					newArr = insertionSort(newArr);
-					var sorted = [];
-					while(newArr.length > 0){
-						for ( var i = 0; i < repos.length; i++ )
+					var newArr = [];
+					for(var i = 0; i < ajaxResult.length; i++){
+						var keys = Object.keys(ajaxResult[i]);
+						for(var j = 0; j < keys.length; j++)
 						{
-							var count = 0;
-							if(repos[i].created_at == newArr[count]){
-								var index = newArr.indexOf(repos[i].created_at);
-								sorted.push(repos[i]);
-								newArr.splice(index, 1);
-								break;
-							}
-							count++;
+							newArr.push(keys[j]);
 						}
 					}
-					$.ajax({
-					  method: "GET",
-					  url: "https://api.github.com/users/jerrycoe/repos",
-					})
-					  .done(function( msg ) {
-					    console.log(msg);
-					  });
-					console.log(site);
+					function onlyUnique(value, index, self) { 
+					    return self.indexOf(value) === index;
+					}
+					var unique = newArr.filter( onlyUnique );
+					console.log(unique);
+					console.log(unique.length);
 				});
-
 			</script>
 		</body>
 	</html>

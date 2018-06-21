@@ -2,13 +2,25 @@
 ---
 $font-stack-header: 'Roboto Slab', serif;
 $font-stack-text: 'Anonymous Pro', monospace;
-$color-tan: rgba(209,207,190,1);
-$color-pale-green: rgba(184,194,178,1);
-$color-pale-blue: rgba(139,164,159,1);
-$color-purple: rgba(68,59,94,1);
-$color-red: rgba(247,59,86,1);
-$color-iterm-green: rgba(139,194,73,1);
-$color-iterm-blue: rgba(38,198,218,1);
+$tan: rgba(209,207,190,1);
+$pale-green: rgba(184,194,178,1);
+$pale-blue: rgba(139,164,159,1);
+$purple: rgba(68,59,94,1);
+$red: rgba(247,59,86,1);
+$iterm-green: rgba(139,194,73,1);
+$iterm-blue: rgba(38,198,218,1);
+
+$shadow-up: 0px 0px 7px 0px rgba(0,0,0,0.45);
+$shadow: 0px 1px 7px 0px rgba(0,0,0,0.45);
+$shadow-sm:  0px 1px 5px 0px rgba(0,0,0,0.45);
+
+//Colors
+$dark-blue: rgba(38,79,116,1);
+$medium-light-blue: rgba(117,149,178,1);
+$dark-grey: rgba(74,74,74,1);
+$yellow: rgba(247,228,151,1);
+$lightest-blue: rgba(176,197,216,1);
+$light-grey: rgba(151,151,151,1);
 h1, h2, h3, h4, h5, h6{
 	font-family: $font-stack-header;
 }
@@ -16,35 +28,152 @@ div, p, li, ul, pre, ol, a, span{
 	font-family: $font-stack-text;
 }
 body{
-	background-color: $color-purple;
+	background: rgba(38,80,116,1);
+	background: -moz-linear-gradient(left, rgba(38,80,116,1) 0%, rgba(38,80,116,1) 50%, rgba(117,149,178,1) 51%, rgba(117,149,178,1) 100%);
+	background: -webkit-gradient(left top, right top, color-stop(0%, rgba(38,80,116,1)), color-stop(50%, rgba(38,80,116,1)), color-stop(51%, rgba(117,149,178,1)), color-stop(100%, rgba(117,149,178,1)));
+	background: -webkit-linear-gradient(left, rgba(38,80,116,1) 0%, rgba(38,80,116,1) 50%, rgba(117,149,178,1) 51%, rgba(117,149,178,1) 100%);
+	background: -o-linear-gradient(left, rgba(38,80,116,1) 0%, rgba(38,80,116,1) 50%, rgba(117,149,178,1) 51%, rgba(117,149,178,1) 100%);
+	background: -ms-linear-gradient(left, rgba(38,80,116,1) 0%, rgba(38,80,116,1) 50%, rgba(117,149,178,1) 51%, rgba(117,149,178,1) 100%);
+	background: linear-gradient(to right, rgba(38,80,116,1) 0%, rgba(38,80,116,1) 50%, rgba(117,149,178,1) 50%, rgba(117,149,178,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#265074', endColorstr='#7595b2', GradientType=1 );
 }
+//Header
 header{
-	margin: 20px 0;
-}
-header img{
-	width:50%;
-	height:auto;
-	display:block;
-	margin: 0 auto;
-	border-radius:500px;
-}
-header h1{
-	font-size: 1em;
-	font-family: $font-stack-text;
-	color: white;
-	text-align:center;
-	margin-top: 30px;
-	span{
-		color: $color-iterm-blue;
+	margin: 0;
+	box-shadow: $shadow;
+	-webkit-box-shadow: $shadow;
+	-moz-box-shadow: $shadow;
+	padding-top: 27px;
+	padding-bottom: 27px;
+	position: relative;
+	z-index: 10;
+	background-color: white;
+	#menu-btn{
+		color: $medium-light-blue;
+		font-size: 1.2em;
 	}
 }
-#public-repo-list{
-	color:$color-purple;
+#inner-title-box{
+	display: table-cell;
+	vertical-align: middle;
+	height:75px;
+	padding-left:25px;
+	h1{
+		font-size: 1.2em;
+		font-family: $font-stack-header;
+		color: $dark-grey;
+		text-align:center;
+		margin:0;
+		font-weight: 700;
+		letter-spacing: .5px;
+	}
+	h3{
+		font-size: 1em;
+		color: $dark-grey;
+		font-family: $font-stack-text;
+		margin:3px 0 0;
+		font-weight: 400;
+	}
+}
+#inner-photo-box{
+	display:table-cell;
+	img{
+		width: 75px;
+		height: 75px;
+		border-radius:500px;
+		box-shadow: $shadow-sm;
+		-webkit-box-shadow: $shadow-sm;
+		-moz-box-shadow: $shadow-sm;
+	}
+}
+#profile-title-box{
+	display: table;
+	margin-top:40px;
+}
+//sub-header
+#sub-header{
+}
+.sub-header-item{
+	text-align:center;
+	height:50px;
+
+}
+.sub-header-item-inner{
+	height:100%;
+	font-weight: 700;
+	text-align:center;
+	h5{
+		font-size: 1.2em;
+		margin:0;
+		width:100%;
+	}
+	span{
+		font-size: .9em;
+		font-weight: 400;
+		margin:0;
+		display:block;
+		line-height:.9em;
+		width:100%;
+		margin-top: -15px;
+	}
+}
+#sub-header-repos{
+	background-color: $dark-blue;
+	color: $lightest-blue;
+}
+#sub-header-gists{
+	background-color: $yellow;
+	color: $dark-blue;
+}
+#sub-header-languages{
+	background-color: $medium-light-blue;
+	color: $lightest-blue;
+}
+//main
+#main-content{
+	box-shadow: $shadow-up;
+	-webkit-box-shadow: $shadow-up;
+	-moz-box-shadow: $shadow-up;
+	background-color: white;
+	position: relative;
+	z-index: 10;
+	.container{
+
+	}
+}
+#public-repo-box, #public-gist-box{
+	padding-top: 30px;
+	padding-bottom: 30px;
+	h5{
+		font-weight: 700;
+		color: $dark-blue;
+		letter-spacing:.5px;
+	}
+	h5 i{
+		display:inline;
+		color: $lightest-blue;
+	}
+}
+#public-repo-list,#public-gist-list{
+	color:$purple;
 	li{
 		background-color: transparent;
 		border:none;
 		padding-top:0;
 		padding-bottom:5px;
-		color: $color-iterm-blue;
+		a{
+			font-size: .9em;
+			color: $dark-grey;
+			text-decoration:none;
+			border-bottom: 1px solid $light-grey;
+			padding-bottom: 6px;
+			i{
+				padding-left: 10px;
+				font-size: 1.7em;
+			}
+		}
 	}
+}
+.list-item-hidden{
+	display:none;
 }
