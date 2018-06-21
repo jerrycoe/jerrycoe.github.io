@@ -1,6 +1,6 @@
 ## My Github Pages Portfolio - jerrycoe.github.io
 
-###Built on:
+### Built on:
 
 <ul>
 	<li>
