@@ -71,12 +71,24 @@
 							<ul id="public-repo-list" class="list-group list-group-flush">
 								{% for repos in sorted %}
 									{% if forloop.index0 < 3 %}
-										<li class="list-group-item list-item-preview" data-repo-id="{{ repos.id }}">
-										  	<a href="#">{{ repos.name }}<i class="fas fa-sort-down"></i></a>
+										<li class="list-group-item list-item-title list-item-preview" data-repo-id="{{ repos.id }}">
+										  	<a href="{{ repos.html_url }}">{{ repos.name }}
+										  		<i class="fas fa-sort-down"></i>
+										  		<div class="list-item-expanded">
+										  			<p>
+										  				{{ repos.description }}	
+										  			</p>	
+										  		</div>
+										  	</a>
 										</li>
 										{% else %}
-										<li class="list-group-item list-item-hidden" data-repo-id="{{ repos.id }}">
-										  	<a href="#">{{ repos.name }}<i class="fas fa-sort-down"></i></a>
+										<li class="list-group-item list-item-title list-item-hidden" data-repo-id="{{ repos.id }}">
+										  	<a href="{{ repos.html_url }}">{{ repos.name }}
+										  		<i class="fas fa-sort-down"></i>
+										  		<div class="list-item-expanded">
+										  			{{ repos.description }}
+										  		</div>
+										  	</a>
 										</li>
 									{% endif %}
 								{% endfor %}
@@ -93,6 +105,15 @@
 						</div>
 					</div><!-- /.row -->
 				</div><!-- /.container -->
+				<div class="container">
+					<div id="quote-box" class="row">
+						<div class="col-md-12">
+							<p>
+								{{ page.quote }}
+							</p>
+						</div>
+					</div>
+				</div>
 			</div><!-- /#main-content -->
 
 			<div class="container">
@@ -115,12 +136,11 @@
 					  url: "https://api.github.com/users/jerrycoe/gists"
 					})
 					.done(function( msg ) {
-						console.log(msg[0].description);
 						for(var i = 0; i < msg.length; i++){
 							if(i < 3){
-								$("#public-gist-list").append('<li class="list-group-item list-item-preview" data-gist-id="'+msg[i].id+'"><a href="'+msg[i].html_url+'">'+msg[i].description.substring(0,27)+'...'+'</a></li>')
+								$("#public-gist-list").append('<li class="list-group-item list-item-title list-item-preview" data-gist-id="'+msg[i].id+'"><a href="'+msg[i].html_url+'">'+msg[i].description.substring(0,27)+'...'+'</a></li>')
 							}else{
-								$("#public-gist-list").append('<li class="list-group-item list-item-hidden" data-gist-id="'+msg[i].id+'"><a href="'+msg[i].html_url+'">'+msg[i].description.substring(0,27)+'...'+'</a></li>')
+								$("#public-gist-list").append('<li class="list-group-item list-item-title list-item-hidden" data-gist-id="'+msg[i].id+'"><a href="'+msg[i].html_url+'">'+msg[i].description.substring(0,27)+'...'+'</a></li>')
 							}
 						}
 					});
@@ -153,8 +173,21 @@
 					    return self.indexOf(value) === index;
 					}
 					var unique = newArr.filter( onlyUnique );
-					console.log(unique);
-					console.log(unique.length);
+					$(document).on('expandListItem','.list-group-item a', function(event){
+						$(this).toggleClass('expanded');
+						if($(this).hasClass('expanded')){
+							$(this).find('i').removeClass('fa-sort-down').addClass('fa-sort-up');
+						}else{
+							$(this).find('i').removeClass('fa-sort-up').addClass('fa-sort-down');
+						}
+						$($(this).find('.list-item-expanded')[0]).slideToggle( 500 ,function(event){
+						});
+					});
+					$(document).on('click', '#public-repo-list li a', function(event){
+						event.preventDefault();
+						$(event.target).trigger('expandListItem');
+					});
+
 				});
 			</script>
 		</body>

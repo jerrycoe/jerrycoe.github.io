@@ -149,7 +149,7 @@ header{
 		color: $dark-blue;
 		letter-spacing:.5px;
 	}
-	h5 i{
+	h5 i{font-size:1.5em;
 		display:inline;
 		color: $lightest-blue;
 	}
@@ -165,15 +165,48 @@ header{
 			font-size: .9em;
 			color: $dark-grey;
 			text-decoration:none;
-			border-bottom: 1px solid $light-grey;
+			position: relative;
 			padding-bottom: 6px;
+			&.expanded i{
+				bottom: 10px;
+			}
 			i{
+				position:absolute;
 				padding-left: 10px;
 				font-size: 1.7em;
+				right: -25px;
+				line-height: 0;
+				bottom:20px;
 			}
 		}
 	}
 }
 .list-item-hidden{
 	display:none;
+}
+.list-item-expanded{
+	border-top: 2px solid $medium-light-blue;
+	background-color: $lightest-blue;
+	color: $dark-blue;
+	margin-top:2px;
+	height:auto;
+	overflow: hidden;
+	display:none;
+	padding-top: 10px;
+	padding-left: 10px;
+	p{
+		font-size:.9em;
+	}
+}
+#quote-box{
+	background-color: $dark-blue;
+	p{
+		padding: 20px 5px 5px 10px;
+		color: $lightest-blue;
+		font-size: .9em;
+		font-family: $font-stack-header;
+		font-weight:400;
+		letter-spacing: .75px;
+
+	}
 }
