@@ -63,6 +63,6 @@
 		Font Awesome 5
 	</li>
 	<li>
-		ColorSchemeDesigner.com
+		ColorSchemeDesigner.com & COLOURlovers.com
 	</li>
 </ul>

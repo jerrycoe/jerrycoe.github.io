@@ -200,6 +200,8 @@ header{
 }
 #quote-box{
 	background-color: $dark-blue;
+	position:relative;
+	z-index: 10;
 	p{
 		padding: 20px 5px 5px 10px;
 		color: $lightest-blue;
@@ -210,3 +212,27 @@ header{
 
 	}
 }
+
+//ajax
+.dynamic-content{
+	min-height: 200px;
+	overflow:hidden;
+	position: relative;
+	border-bottom:1px solid black;
+}
+.loading-spinner{
+	position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+	i{
+		font-size: 3em;
+		color: $medium-light-blue;
+	    -webkit-animation:spin 4s linear infinite;
+	    -moz-animation:spin 4s linear infinite;
+	    animation:spin 4s linear infinite;
+	}
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

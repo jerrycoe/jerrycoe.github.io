@@ -95,13 +95,14 @@
 
 							</ul>
 						</div>
-						<div id="public-gist-box" class="col-md-4"> 	
+						<div id="public-gist-box" class="col-md-4 dynamic-content"> 	
 							<h5>
 								<i class="fas fa-file-code"></i>
 								public gists
 							</h5>
 							<ul id="public-gist-list" class="list-group list-group-flush">
 							</ul>
+							<div class='loading-spinner'><i class='fas fa-circle-notch'></i></div>
 						</div>
 					</div><!-- /.row -->
 				</div><!-- /.container -->
@@ -129,35 +130,40 @@
 					var site = {{ site.github | jsonify }};
 					var repos = {{ site.github.public_repositories | jsonify }};
 					var ajaxResult = [];
-				   $.ajax({
-					  method: "GET",
-					  cache: true,
-					  //url: "https://api.github.com/repos/jerrycoe/"+repos[i].name+"/stats/contributors",
-					  url: "https://api.github.com/users/jerrycoe/gists"
+				   	$.ajax({
+				   		section: '#public-gist-box',
+				   		beforeSend: function(){
+				   			$(this.section).find(".loading-spinner").show();
+				   		},
+						method: "GET",
+						cache: true,
+						url: "https://api.github.com/users/jerrycoe/gists"
 					})
 					.done(function( msg ) {
 						for(var i = 0; i < msg.length; i++){
+							descriptionExcerpt = msg[i].description.substring(0,27)+'...';
 							if(i < 3){
-								$("#public-gist-list").append('<li class="list-group-item list-item-title list-item-preview" data-gist-id="'+msg[i].id+'"><a href="'+msg[i].html_url+'">'+msg[i].description.substring(0,27)+'...'+'</a></li>')
+								$("#public-gist-list").append('<li class="list-group-item list-item-title list-item-preview" data-gist-id="'+msg[i].id+'"><a href="'+msg[i].html_url+'">'+ descriptionExcerpt +'</a></li>')
 							}else{
-								$("#public-gist-list").append('<li class="list-group-item list-item-title list-item-hidden" data-gist-id="'+msg[i].id+'"><a href="'+msg[i].html_url+'">'+msg[i].description.substring(0,27)+'...'+'</a></li>')
+								$("#public-gist-list").append('<li class="list-group-item list-item-title list-item-hidden" data-gist-id="'+msg[i].id+'"><a href="'+msg[i].html_url+'">'+ descriptionExcerpt +'</a></li>')
 							}
 						}
+						$(this.section).find( ".loading-spinner" ).hide();
+						$(this.section).addClass('content-loaded');
 					});
 					for ( var i = 0; i < repos.length; i++ )
 					{
-					   $.ajax({
-						  method: "GET",
-						  cache: true,
-						  async: false,
-						  //url: "https://api.github.com/repos/jerrycoe/"+repos[i].name+"/stats/contributors",
-						  url: "https://api.github.com/repos/jerrycoe/"+repos[i].name+"/languages",
-						  repos: repos,
-						  index: i,
+					   	$.ajax({
+
+							method: "GET",
+							cache: true,
+							async: false,
+						 	//url: "https://api.github.com/repos/jerrycoe/"+repos[i].name+"/stats/contributors",
+							url: "https://api.github.com/repos/jerrycoe/"+repos[i].name+"/languages",
+							repos: repos,
+							index: i,
 						})
 						.done(function( msg ) {
-							//$('*[data-repo-id="'+this.repos[this.index].id+'"] span').text(msg[0].total);
-							//console.log(msg)
 							ajaxResult.push(msg);
 						});
 					}
@@ -169,10 +175,12 @@
 							newArr.push(keys[j]);
 						}
 					}
+
 					function onlyUnique(value, index, self) { 
 					    return self.indexOf(value) === index;
 					}
-					var unique = newArr.filter( onlyUnique );
+					var uniqueGitLanguages = newArr.filter( onlyUnique );
+
 					$(document).on('expandListItem','.list-group-item a', function(event){
 						$(this).toggleClass('expanded');
 						if($(this).hasClass('expanded')){
@@ -183,6 +191,7 @@
 						$($(this).find('.list-item-expanded')[0]).slideToggle( 500 ,function(event){
 						});
 					});
+
 					$(document).on('click', '#public-repo-list li a', function(event){
 						event.preventDefault();
 						$(event.target).trigger('expandListItem');
