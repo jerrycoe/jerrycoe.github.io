@@ -28,3 +28,41 @@
 		jQuery
 	</li>
 </ul>
+
+### Process:
+
+#### Mockup
+<ul>
+	<li>
+		Sketch 50
+	</li>
+	<li>
+		Photoshop CC
+	</li>
+</ul>
+
+#### Development
+<ul>
+	<li>
+		Sublime Text
+	</li>
+	<li>
+		iTerm
+	</li>
+	<li>
+		Github Public API
+	</li>
+</ul>
+
+#### Design
+<ul>
+	<li>
+		Google Fonts (Anonymous Pro, Robot Slab)
+	</li>
+	<li>
+		Font Awesome 5
+	</li>
+	<li>
+		ColorSchemeDesigner.com
+	</li>
+</ul>
