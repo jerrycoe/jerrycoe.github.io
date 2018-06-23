@@ -127,7 +127,7 @@
 								</div>
 								<div id="footer-repo-info">
 									<p>{{ site.github.project_title }}</p>
-									<p>{{ site.github.releases site.github.source.branch }}</p>
+									<p>{{ site.github.releases[0].tag_name }} [{{ site.github.releases[0].target_commitish }}]</p>
 								</div>
 							</div>
 
