@@ -21,6 +21,7 @@ $dark-grey: rgba(74,74,74,1);
 $yellow: rgba(247,228,151,1);
 $lightest-blue: rgba(176,197,216,1);
 $light-grey: rgba(151,151,151,1);
+
 h1, h2, h3, h4, h5, h6{
 	font-family: $font-stack-header;
 }
@@ -137,6 +138,7 @@ header{
 	background-color: white;
 	position: relative;
 	z-index: 10;
+	padding-bottom: 30px;
 	.container{
 
 	}
@@ -207,8 +209,10 @@ header{
 		color: $lightest-blue;
 		font-size: .9em;
 		font-family: $font-stack-header;
-		font-weight:400;
+		font-weight:700;
 		letter-spacing: .75px;
+		text-align: center;
+
 
 	}
 }
@@ -218,7 +222,6 @@ header{
 	min-height: 200px;
 	overflow:hidden;
 	position: relative;
-	border-bottom:1px solid black;
 }
 .loading-spinner{
 	position: absolute;
@@ -232,6 +235,21 @@ header{
 	    -moz-animation:spin 4s linear infinite;
 	    animation:spin 4s linear infinite;
 	}
+}
+
+//footer
+footer{
+	background-color: $dark-blue;
+}
+#github-logo-box{
+	float: left;
+	i{
+		color: $lightest-blue;
+		font-size: 3em;
+	}
+}
+#footer-repo-info{
+	padding-left: 20px;
 }
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }

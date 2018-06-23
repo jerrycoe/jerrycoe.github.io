@@ -117,17 +117,28 @@
 				</div>
 			</div><!-- /#main-content -->
 
-			<div class="container">
-			<footer>
-	    		<ul>
-	        		<li><a href="mailto:jerrycoe2@gmail.com">email</a></li>
-	        		<li><a href="https://github.com/jerrycoe">github.com/jerrycoe</a></li>
-				</ul>
-			</footer>
-			</div>
+			
+				<footer>
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<div id="github-logo-box">
+									<i class="fab fa-github-square"></i>
+								</div>
+								<div id="footer-repo-info">
+									<p>{{ site.github.project_title }}</p>
+									<p>{{ site.github.releases site.github.source.branch }}</p>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</footer>
+
 			<script>
 				$(document).ready(function(){
 					var site = {{ site.github | jsonify }};
+					console.log(site);
 					var repos = {{ site.github.public_repositories | jsonify }};
 					var ajaxResult = [];
 				   	$.ajax({

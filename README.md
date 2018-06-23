@@ -27,6 +27,9 @@
 	<li>
 		jQuery
 	</li>
+	<li>
+		CSS 3
+	</li>
 </ul>
 
 ### Process:
