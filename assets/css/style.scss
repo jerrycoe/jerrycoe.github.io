@@ -28,6 +28,9 @@ h1, h2, h3, h4, h5, h6{
 div, p, li, ul, pre, ol, a, span{
 	font-family: $font-stack-text;
 }
+html, body{
+	height: 100%;
+}
 body{
 	background: rgba(38,80,116,1);
 	background: -moz-linear-gradient(left, rgba(38,80,116,1) 0%, rgba(38,80,116,1) 50%, rgba(117,149,178,1) 51%, rgba(117,149,178,1) 100%);
@@ -139,6 +142,7 @@ header{
 	position: relative;
 	z-index: 10;
 	padding-bottom: 30px;
+	height: 100%;
 	.container{
 
 	}
@@ -240,16 +244,27 @@ header{
 //footer
 footer{
 	background-color: $dark-blue;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	position: relative;
+	bottom: 0;
+	width: 100%;
 }
 #github-logo-box{
-	float: left;
+	display:inline-block;
 	i{
 		color: $lightest-blue;
-		font-size: 3em;
+		font-size: 4em;
 	}
 }
 #footer-repo-info{
-	padding-left: 20px;
+	display:inline-block;
+	p{
+		margin-left: 20px;
+		margin-bottom: 0;
+		color: $medium-light-blue;
+		font-family: $font-stack-header;
+	}
 }
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
