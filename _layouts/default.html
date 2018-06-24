@@ -60,10 +60,9 @@
 			</div>
 			<div id="main-content">
 				<div class="container">
-					{% assign sorted = site.github.public_repositories | sort:"created_at" | reverse %}
-					{% assign sorted = site.github.public_repositories | sort:"created_at" | reverse %}
+					{% assign sorted = site.github.public_repositories | sort:"updated_at" | reverse %}
 					<div class="row">
-						<div id="public-repo-box" class="col-md-8"> 	
+						<div id="public-repo-box" class="col-md-5"> 	
 							<h5>
 								<i class="fas fa-database"></i>
 								public repos
@@ -73,7 +72,7 @@
 									{% if forloop.index0 < 3 %}
 										<li class="list-group-item list-item-title list-item-preview" data-repo-id="{{ repos.id }}">
 										  	<a href="{{ repos.html_url }}">{{ repos.name }}
-										  		<i class="fas fa-sort-down"></i>
+										  		
 										  		<div class="list-item-expanded">
 										  			<p>
 										  				{{ repos.description }}	
@@ -84,7 +83,7 @@
 										{% else %}
 										<li class="list-group-item list-item-title list-item-hidden" data-repo-id="{{ repos.id }}">
 										  	<a href="{{ repos.html_url }}">{{ repos.name }}
-										  		<i class="fas fa-sort-down"></i>
+										  		
 										  		<div class="list-item-expanded">
 										  			{{ repos.description }}
 										  		</div>
@@ -104,17 +103,46 @@
 							</ul>
 							<div class='loading-spinner'><i class='fas fa-circle-notch'></i></div>
 						</div>
-					</div><!-- /.row -->
-				</div><!-- /.container -->
-				<div class="container">
-					<div id="quote-box" class="row">
-						<div class="col-md-12">
+						<div id="quote-box" class="col-md-3">
 							<p>
 								{{ page.quote }}
 							</p>
 						</div>
-					</div>
-				</div>
+					</div><!-- /.row --> 
+					<div id="stats-box" class="row">
+						<h5>
+							<i class="fas fa-chart-pie"></i>
+							stats
+						</h5>
+						<div class="col-md-4 stats-item-box">
+								<h6>
+									most popular language
+								</h6>
+								<p>
+									javascript <span>[9303 characters]</span>
+								</p>
+						</div>
+						<div class="col-md-4 stats-item-box">
+								<h6>
+									all languages used
+								</h6>
+								<ul>
+									<li>javascript</li>
+									<li>html</li>
+									<li>css</li>
+									<li>php</li>
+								</ul>
+						</div>
+						<div class="col-md-4 stats-item-box">
+								<h6>
+									most commits (by repo)
+								</h6>
+								<p>jerrycoe.github.io <span>[latest1]</span></p>
+						</div>
+						<div style="display:none"><input type="file" name="blob"></div>
+						
+					</div><!-- /.row --> 
+				</div><!-- /.container -->
 			</div><!-- /#main-content -->
 
 			
@@ -138,8 +166,9 @@
 			<script>
 				$(document).ready(function(){
 					var site = {{ site.github | jsonify }};
-					console.log(site);
+					
 					var repos = {{ site.github.public_repositories | jsonify }};
+					console.log(repos);
 					var ajaxResult = [];
 				   	$.ajax({
 				   		section: '#public-gist-box',
@@ -207,7 +236,17 @@
 						event.preventDefault();
 						$(event.target).trigger('expandListItem');
 					});
+					/*
+				   	$.ajax({
 
+						method: "GET",
+						cache: true,
+						url: "script.js"
+					})
+					.done(function( msg ) {
+						console.log(msg);
+					});
+					*/
 				});
 			</script>
 		</body>

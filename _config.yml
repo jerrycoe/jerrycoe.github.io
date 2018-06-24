@@ -7,3 +7,4 @@ plugins:
   - "jekyll-github-metadata"
 sass:
   style: compressed
+  sourcemap: true
