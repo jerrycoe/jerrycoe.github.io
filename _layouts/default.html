@@ -77,7 +77,7 @@
 								{% for repos in sorted %}
 									{% if forloop.index0 < 3 %}
 										<li class="list-group-item list-item-title list-item-preview" data-repo-id="{{ repos.id }}">
-										  	<a href="{{ repos.html_url }}">{{ repos.name }}
+										  	<a href="{{ repos.html_url }}">{{ repos.name }} {% if repos.fork == true %} <span class="badge badge-secondary fork-tag repo-badge">fork</span>  {% endif %}
 										  		
 										  		<div class="list-item-expanded">
 										  			<p>
@@ -141,7 +141,7 @@
 							<h6>
 								most commits (by repo)
 							</h6>
-							<p>jerrycoe.github.io <span>[latest1]</span></p>
+							<p></p>
 						</div>
 						<div style="display:none"><input type="file" name="blob"></div>
 						
@@ -172,6 +172,7 @@
 				<script type="text/javascript">
 					var site = {{ site.github | jsonify }};
 					var repos = {{ site.github.public_repositories | jsonify }};
+					console.log(repos);
 				</script>
 			 {% for js in page.appJS %}
 			     <script id="appJS" type="text/javascript">

@@ -260,16 +260,15 @@ header{
 	position:relative;
 	z-index: 10;
 	p{
+		margin-top:50px;
 		background-color: $dark-blue;
-		padding: 30px 15px;
+		padding: 50px 15px;
 		color: $lightest-blue;
 		font-size: .9em;
 		font-family: $font-stack-header;
 		font-weight:700;
 		letter-spacing: .75px;
 		text-align: center;
-
-
 	}
 }
 
@@ -286,6 +285,12 @@ header{
 			color: $dark-blue;
 		}
 	}
+}
+.repo-badge{
+	margin-left:10px;
+	line-height: 1em;
+	vertical-align: text-top;
+	font-weight: 400;
 }
 .loading-spinner{
 	position: absolute;

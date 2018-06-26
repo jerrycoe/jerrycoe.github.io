@@ -46,6 +46,7 @@ $(document).ready(function(){
 
 	//LANGUAGES
 	var ajaxResult = [];
+	var ajaxResult2 = [];
 	for ( var i = 0; i < repos.length; i++ )
 	{
 	   	$.ajax({
@@ -90,15 +91,41 @@ $(document).ready(function(){
 			index: i,
 		})
 		.done(function( msg ) {
-			/*
-			ajaxResult.push(msg);
-   			$.each(this.sections, function(index, el){
-				$(el).find( ".loading-spinner" ).hide();
-				$(el).addClass('content-loaded');
-			});
-			*/
+			
+			ajaxResult2.push(msg);
 		});
 	}
+	
+	var highcommit = {};
+	//console.log(ajaxResult2);
+	for( var i = 0; i < ajaxResult2.length; i++)
+	{
+		var commitCount = 0;
+		$(ajaxResult2[i][0].weeks).each(function(i,v){
+			//console.log(this.c);
+			commitCount += this.c;
+		});
+		highcommit[repos[i].name] = commitCount;
+	}
+	var highest = 0;
+	var highset = {};
+	for( var i = 0; i < repos.length; i++)
+	{
+		//console.log(highcommit[repos[i].name]);
+		if( highcommit[repos[i].name] > highest)
+		{
+			old = Object.keys(highset)[0];
+			highest = highcommit[repos[i].name];
+			highset[repos[i].name] = highcommit[repos[i].name];
+			delete highset[old];
+		}
+	}
+	console.log(highset[0]);
+	hkeys = Object.keys(highset);
+	hvals = Object.values(highset);
+	$('#most-commits p').html(hkeys + '<span></span>');
+	$('#most-commits p span').text(' ['+hvals+']');
+
 	var newArr = [];
 	var newArr2 = {};
 	for(var i = 0; i < ajaxResult.length; i++){
@@ -137,7 +164,7 @@ $(document).ready(function(){
 		$('#languages-used ul').append("<li>"+value+"</li>");
 		animText(index);
 	});
-
+	//console.log(newArr2);
 	high = Object.keys(newArr2).sort(function(a,b){return newArr2[a]-newArr2[b]}).reverse();
 	$('#popular-language p').html(high[0] + "<span></span>");
 	$('#popular-language p span').text(' ['+newArr2[high[0]] + ' bytes]');
