@@ -100,7 +100,7 @@ header{
 .sub-header-item{
 	text-align:center;
 	height:50px;
-
+	position:relative;
 }
 .sub-header-item-inner{
 	height:100%;
@@ -228,6 +228,9 @@ header{
 		list-style-type: none;
 	}
 }
+.stats-item-box{
+	min-height:100px;
+}
 .stats-item-box,.list-item-title{
 	//border-right: 3px solid $lightest-blue;
 	//padding-right: 10px;
@@ -275,6 +278,14 @@ header{
 	min-height: 200px;
 	overflow:hidden;
 	position: relative;
+}
+.sub-header-item{
+	.loading-spinner{
+		i{
+			font-size: 1.7em;	
+			color: $dark-blue;
+		}
+	}
 }
 .loading-spinner{
 	position: absolute;
