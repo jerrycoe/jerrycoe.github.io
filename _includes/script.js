@@ -12,7 +12,7 @@ $(document).ready(function(){
 		cache: true,
 		url: "https://api.github.com/users/jerrycoe",
 		headers: {
-        	'If-Modified-Since': 'Thu, 28 Jun 2018 00:00:05 GMT'
+        	//'If-Modified-Since': 'Thu, 27 Jun 2018 00:00:05 GMT'
   		},
 	})
 	.done(function( msg ) {
@@ -79,7 +79,6 @@ $(document).ready(function(){
    			});
    		},		
    		headers: {
-        		'If-Modified-Since': 'Thu, 28 Jun 2018 00:00:05 GMT'
   		},
 		method: "GET",
 		cache: true,
@@ -129,7 +128,6 @@ $(document).ready(function(){
 	   			'#popular-language'
 	   		],
 			headers: {
-        		'If-Modified-Since': 'Thu, 28 Jun 2018 00:00:05 GMT'
   			},
 	   		beforeSend: function(){
 				$.each(this.sections, function(index, el){
@@ -162,7 +160,7 @@ $(document).ready(function(){
 				});
 			},
 			headers: {
-        		'If-Modified-Since': 'Thu, 28 Jun 2018 00:00:05 GMT'
+
 	  		},
 			method: "GET",
 			cache: true,
