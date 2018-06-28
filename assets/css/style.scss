@@ -45,7 +45,8 @@ body{
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#265074', endColorstr='#7595b2', GradientType=1 );
 }
 body.body-noscroll{
-	posittion: fixed;
+	posittion: fixed!important;
+	height: 100vh;
 }
 //Header
 header{
@@ -119,6 +120,7 @@ body.menu-open{
 	padding-top: 27px;
 	overflow-y: scroll;
 	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
 }
 #github-logo-large{
 	-webkit-transition: all 0.5s ease;
