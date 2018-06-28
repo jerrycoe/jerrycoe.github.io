@@ -12,7 +12,7 @@ $(document).ready(function(){
 		cache: true,
 		url: "https://api.github.com/users/jerrycoe",
 		headers: {
-        'Authorization': 'token '+token
+        //'Authorization': 'token '+token
   		},
 	})
 	.done(function( msg ) {
@@ -79,7 +79,7 @@ $(document).ready(function(){
    			});
    		},		
    		headers: {
-        'Authorization': 'token '+token
+        //'Authorization': 'token '+token
   		},
 		method: "GET",
 		cache: true,
@@ -129,7 +129,7 @@ $(document).ready(function(){
 	   			'#popular-language'
 	   		],
 			headers: {
-        'Authorization': 'token '+token
+        //'Authorization': 'token '+token
   			},
 	   		beforeSend: function(){
 				$.each(this.sections, function(index, el){
@@ -162,7 +162,7 @@ $(document).ready(function(){
 				});
 			},
 			headers: {
-        'Authorization': 'token '+token
+        //'Authorization': 'token '+token
 	  		},
 			method: "GET",
 			cache: true,
