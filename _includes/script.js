@@ -26,6 +26,7 @@ $(document).ready(function(){
 		function(e){
 			$('.menu-item-single').removeClass('closing-menu');
 			$('#menu-box').show();
+			$('body').addClass('body-noscroll');
 			$('#menu-box').animate({
 				'opacity': 1
 			},{
@@ -37,7 +38,6 @@ $(document).ready(function(){
 						setTimeout(function(){
 							$(el).addClass('opening-menu');
 						},150*i);
-						
 					});
 				}
 			});
@@ -48,6 +48,7 @@ $(document).ready(function(){
 		'click', 
 		'#menu-close-btn', 
 		function(e){
+			$('body').removeClass('body-noscroll');
 			$('.menu-item-single').removeClass('opening-menu');
 			$('#menu-box').animate({
 				'opacity': 0
