@@ -10,7 +10,10 @@ $(document).ready(function(){
    		},
 		method: "GET",
 		cache: true,
-		url: "https://api.github.com/users/jerrycoe"
+		url: "https://api.github.com/users/jerrycoe",
+		headers: {
+        'Authorization': 'token '+token
+  		},
 	})
 	.done(function( msg ) {
 		console.log(msg);
@@ -74,10 +77,13 @@ $(document).ready(function(){
    			$.each(this.sections, function(index, el){
    				$(el).find(".loading-spinner").show();
    			});
-   		},
+   		},		
+   		headers: {
+        'Authorization': 'token '+token
+  		},
 		method: "GET",
 		cache: true,
-		url: "https://api.github.com/users/jerrycoe/gists"
+		url: "https://api.github.com/users/jerrycoe/gists",
 	})
 	.done(function( msg ) {
 		for(var i = 0; i < msg.length; i++){
@@ -122,6 +128,9 @@ $(document).ready(function(){
 	   			'#languages-used',
 	   			'#popular-language'
 	   		],
+			headers: {
+        'Authorization': 'token '+token
+  			},
 	   		beforeSend: function(){
 				$.each(this.sections, function(index, el){
 					$(el).find(".loading-spinner").show();
@@ -152,6 +161,9 @@ $(document).ready(function(){
 					$(el).find(".loading-spinner").show();
 				});
 			},
+			headers: {
+        'Authorization': 'token '+token
+	  		},
 			method: "GET",
 			cache: true,
 			async: false,
@@ -265,7 +277,6 @@ $(document).ready(function(){
 
 	//STYLESHEET
    	$.ajax({
-
 		method: "GET",
 		cache: true,
 		url: "assets/css/style.css",

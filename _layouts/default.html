@@ -235,6 +235,7 @@
 				<script type="text/javascript">
 					var site = {{ site.github | jsonify }};
 					var repos = {{ site.github.public_repositories | jsonify }};
+					var token = "{{ page.token }}";
 					console.log(repos);
 				</script>
 			 {% for js in page.appJS %}
