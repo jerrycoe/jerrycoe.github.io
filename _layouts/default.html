@@ -12,15 +12,77 @@
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js" integrity="sha384-u/bQvRA/1bobcXlcEYpsEdFVK/vJs3+T+nXLsBYJthmdBuavHvAW6UsmqO2Gd/F9" crossorigin="anonymous"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js" crossorigin="anonymous"></script>
-			
-				<script type="text/javascript">
-
-				</script>
-
 		</head>
 
 		<body>
-
+			<div id="menu-box">
+				<div id="github-logo-large">
+					<i class="fab fa-github"></i>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div id="menu-info-box" class="col-md-12">
+							<i id="menu-close-btn" class="fas fa-bars"></i>
+							<div id="github-user-info">
+								<div id="info-inner">
+									<p id="gh-info-name"></p>
+									<p id="gh-info-location"></p>
+									<p id="gh-info-bio"></p>
+								</div>
+								<div id="menu-photo-box">
+									<img src="assets/images/profile.jpg">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="menu-items" class="row">
+						<div class="menu-item-single col-md-3">
+							<div class="card">
+								<div class="card-body">
+								    <h5 class="card-title"><i class="fas fa-database"></i>repositories</h5>
+								    <h6 class="card-subtitle mb-2">::public</h6>
+									<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+								    <a href="#" class="card-link">Card link</a>
+    								<a href="#" class="card-link">Another link</a>
+								</div>
+							</div>
+						</div>
+						<div class="menu-item-single col-md-3">
+							<div class="card">
+								<div class="card-body">
+								    <h5 class="card-title"><i class="fas fa-file-code"></i>gists</h5>
+								    <h6 class="card-subtitle mb-2">you get the point</h6>
+									<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+								    <a href="#" class="card-link">Card link</a>
+    								<a href="#" class="card-link">Another link</a>
+								</div>
+							</div>
+						</div>
+						<div class="menu-item-single col-md-3">
+							<div class="card">
+								<div class="card-body">
+								    <h5 class="card-title"><i class="fas fa-chart-pie"></i>stats</h5>
+								    <h6 class="card-subtitle mb-2">the numbers</h6>
+									<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+								    <a href="#" class="card-link">Card link</a>
+    								<a href="#" class="card-link">Another link</a>
+								</div>
+							</div>
+						</div>
+						<div class="menu-item-single col-md-3">
+							<div class="card">
+								<div class="card-body">
+								    <h5 class="card-title"><i class="fab fa-git"></i>github.com/jerrycoe</h5>
+								    <h6 class="card-subtitle mb-2">view the code</h6>
+									<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+								    <a href="#" class="card-link">Card link</a>
+    								<a href="#" class="card-link">Another link</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<header>
 				<div class="container">
 					<div class="row">
@@ -142,6 +204,7 @@
 								most commits (by repo)
 							</h6>
 							<p></p>
+							<div class='loading-spinner'><i class='fas fa-circle-notch'></i></div>
 						</div>
 						<div style="display:none"><input type="file" name="blob"></div>
 						

@@ -9,7 +9,6 @@ $purple: rgba(68,59,94,1);
 $red: rgba(247,59,86,1);
 $iterm-green: rgba(139,194,73,1);
 $iterm-blue: rgba(38,198,218,1);
-
 $shadow-up: 0px 0px 7px 0px rgba(0,0,0,0.45);
 $shadow: 0px 1px 7px 0px rgba(0,0,0,0.45);
 $shadow-sm:  0px 1px 5px 0px rgba(0,0,0,0.45);
@@ -29,9 +28,13 @@ div, p, li, ul, pre, ol, a, span{
 	font-family: $font-stack-text;
 }
 html, body{
-	height: 100%;
+	position: relative;
+}
+html{
+	min-height: 100%;
 }
 body{
+	height: 100%;
 	background: rgba(38,80,116,1);
 	background: -moz-linear-gradient(left, rgba(38,80,116,1) 0%, rgba(38,80,116,1) 50%, rgba(117,149,178,1) 51%, rgba(117,149,178,1) 100%);
 	background: -webkit-gradient(left top, right top, color-stop(0%, rgba(38,80,116,1)), color-stop(50%, rgba(38,80,116,1)), color-stop(51%, rgba(117,149,178,1)), color-stop(100%, rgba(117,149,178,1)));
@@ -55,6 +58,7 @@ header{
 	#menu-btn{
 		color: $medium-light-blue;
 		font-size: 1.2em;
+		cursor: pointer;
 	}
 }
 #inner-title-box{
@@ -93,6 +97,145 @@ header{
 #profile-title-box{
 	display: table;
 	margin-top:40px;
+}
+
+//menu
+body.menu-open{
+	overflow:hidden;
+}
+#menu-box{
+	height: 100vh;
+	width: 100%;
+	background-color: white;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 11;
+	display: none;
+	opacity: 0;
+	padding-top: 27px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+#github-logo-large{
+	-webkit-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+	/*
+		&.closing-menu{
+			filter: blur(0);
+		}
+	*/
+	filter: blur(5px);
+	font-size: 30em;
+	color: $lightest-blue;
+	position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%,0);
+    z-index: 1;
+    line-height: 30em;
+    i{
+    	bottom:0;
+    	vertical-align: bottom;
+    	margin-bottom:-30px;
+    }
+}
+
+#menu-close-btn{
+	color: $dark-blue;
+	font-size: 1.2em;
+	cursor: pointer;
+	float: left;
+}
+#menu-info-box{
+	text-align: right;
+	position:relative;
+	z-index: 10;
+}
+#menu-photo-box{
+	float:right;
+	padding-left:20px;
+	img{
+		width: 50px;
+		height: 50px;
+		border-radius:100px;
+		box-shadow: $shadow-sm;
+		-webkit-box-shadow: $shadow-sm;
+		-moz-box-shadow: $shadow-sm;
+	}
+}
+#github-user-info{
+	float:right;
+	p{
+		font-family: $font-stack-header;
+		margin-bottom: 0;
+		font-size: .7em;
+	}
+}
+#info-inner{
+	float:left;
+}
+#gh-info-name{
+	color: $medium-light-blue;
+}
+#gh-info-location,#gh-info-bio{
+	color: $lightest-blue;
+}
+#menu-items{
+	position: relative;
+	z-index: 13;
+	padding-top:40px;
+	.menu-item-single{
+		opacity: 0;
+		//-webkit-transition: all 1s ease;
+		transition: all .5s ease;
+		&.closing-menu{
+			-webkit-transform: scale(3);
+			-moz-transform: scale(3);
+			-o-transform: scale(3);
+			-ms-transform: scale(3);
+			opacity: 0;
+		}
+	}
+	.card{
+		border: none;
+		box-shadow: $shadow;
+		-webkit-box-shadow: $shadow;
+		-moz-box-shadow: $shadow;
+		background-color: rgba(255,255,255,.5);
+		margin-bottom: 10px;
+		.card-title{
+			font-family: $font-stack-text;
+			color: $dark-blue;
+			font-weight: 700;
+			margin-bottom:5px;
+			i{
+				font-size: 1.5em;
+				width:40px;
+				color: $medium-light-blue;
+			}
+
+		}
+		.card-subtitle{
+			font-family: $font-stack-header;
+			color: $medium-light-blue;
+			padding-left: 40px;
+			font-size: .9em;
+			font-weight: 300;
+		}
+		.card-text{
+			display: none;
+		}
+		.card-link{
+			display: none;
+		}
+	}
+}
+@for $i from 1 through 10 {
+    #menu-items .menu-item-single.opening-menu:nth-child(#{$i}n) {
+       // animation-delay: #{$i*1}s;
+        opacity: 1;
+    }
 }
 //sub-header
 #sub-header{
@@ -213,8 +356,14 @@ header{
 		color: $dark-blue;
 		font-weight: 700;
 		padding-left: 5px;
-		span{
-			color: $medium-light-blue;
+		span {
+		    /* color: #7595b2; */
+		    font-size: .8em;
+		    font-weight: 400;
+		    line-height: 1.5em;
+		    vertical-align: middle;
+		    margin-bottom: 10px;
+		    margin-left: 10px;
 		}
 		
 	}
@@ -234,7 +383,7 @@ header{
 .stats-item-box,.list-item-title{
 	//border-right: 3px solid $lightest-blue;
 	//padding-right: 10px;
-	border-bottom: 3px solid $lightest-blue;
+	//border-bottom: 3px solid $lightest-blue;
 	padding-bottom: 10px;
 	margin-bottom: 20px;
 	&:last-child{
@@ -256,7 +405,8 @@ header{
 	}
 }
 #quote-box{
-	padding: 30px 0 0 0;
+	//padding: 30px 0 0 0;
+	padding: 0;
 	position:relative;
 	z-index: 10;
 	p{

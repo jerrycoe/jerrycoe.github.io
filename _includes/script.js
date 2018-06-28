@@ -1,7 +1,69 @@
 $(document).ready(function(){
 
-	//GISTS
+	//USER
+   	$.ajax({
+   		sections: [
+   			'#menu-box'
+   		],
+   		beforeSend: function(){
 
+   		},
+		method: "GET",
+		cache: true,
+		url: "https://api.github.com/users/jerrycoe"
+	})
+	.done(function( msg ) {
+		console.log(msg);
+		$('#gh-info-name').append(msg.name);
+		$('#gh-info-location').append(msg.location);
+		$('#gh-info-bio').append(msg.bio);
+	});
+
+	//MENU
+	$(document).on(
+		'click', 
+		'#menu-btn', 
+		function(e){
+			$('.menu-item-single').removeClass('closing-menu');
+			$('#menu-box').show();
+			$('#menu-box').animate({
+				'opacity': 1
+			},{
+				start: function(e){
+
+				},
+				complete: function(e){
+					$('.menu-item-single').each(function(i,el){
+						setTimeout(function(){
+							$(el).addClass('opening-menu');
+						},150*i);
+						
+					});
+				}
+			});
+			$('body').addClass('menu-open');
+		}
+	);
+	$(document).on(
+		'click', 
+		'#menu-close-btn', 
+		function(e){
+			$('.menu-item-single').removeClass('opening-menu');
+			$('#menu-box').animate({
+				'opacity': 0
+			},{
+				start: function(){
+					$('.menu-item-single').addClass('closing-menu');
+				},
+				complete: function(){
+					$('#menu-box').hide();
+					$('body').removeClass('menu-open');
+				}
+			});
+		}
+	);
+
+	//GISTS
    	$.ajax({
    		sections: [
    			'#public-gist-box',
@@ -25,7 +87,6 @@ $(document).ready(function(){
 				$("#public-gist-list").append('<li class="list-group-item list-item-title list-item-hidden" data-gist-id="'+msg[i].id+'"><a href="'+msg[i].html_url+'">'+ descriptionExcerpt +'</a></li>')
 			}
 		}
-
 		$.each(this.sections, function(index, el){
 			$(el).find( ".loading-spinner" ).hide();
 			$(el).addClass('content-loaded');
@@ -47,8 +108,13 @@ $(document).ready(function(){
 	//LANGUAGES
 	var ajaxResult = [];
 	var ajaxResult2 = [];
+	var highRepoCount = false;
 	for ( var i = 0; i < repos.length; i++ )
 	{
+		if(repos.length > 10)
+		{
+			highRepoCount = true;
+		}
 	   	$.ajax({
 	   		sections: [
 	   			'#sub-header-languages',
@@ -78,10 +144,12 @@ $(document).ready(function(){
 
 	   	$.ajax({
 	   		sections: [
-	   			'#sub-header-languages'
+	   			'#most-commits'
 	   		],
 	   		beforeSend: function(){
-				
+				$.each(this.sections, function(index, el){
+					$(el).find(".loading-spinner").show();
+				});
 			},
 			method: "GET",
 			cache: true,
@@ -91,27 +159,32 @@ $(document).ready(function(){
 			index: i,
 		})
 		.done(function( msg ) {
-			
 			ajaxResult2.push(msg);
+   			$.each(this.sections, function(index, el){
+				$(el).find( ".loading-spinner" ).hide();
+				$(el).addClass('content-loaded');
+			});
 		});
 	}
 	
 	var highcommit = {};
-	//console.log(ajaxResult2);
+
 	for( var i = 0; i < ajaxResult2.length; i++)
 	{
 		var commitCount = 0;
-		$(ajaxResult2[i][0].weeks).each(function(i,v){
-			//console.log(this.c);
-			commitCount += this.c;
-		});
+		if(ajaxResult2[i][0].weeks){
+			$(ajaxResult2[i][0].weeks).each(function(i,v){
+
+				commitCount += this.c;
+			});
+		}
+
 		highcommit[repos[i].name] = commitCount;
 	}
 	var highest = 0;
 	var highset = {};
 	for( var i = 0; i < repos.length; i++)
 	{
-		//console.log(highcommit[repos[i].name]);
 		if( highcommit[repos[i].name] > highest)
 		{
 			old = Object.keys(highset)[0];
@@ -120,7 +193,6 @@ $(document).ready(function(){
 			delete highset[old];
 		}
 	}
-	console.log(highset[0]);
 	hkeys = Object.keys(highset);
 	hvals = Object.values(highset);
 	$('#most-commits p').html(hkeys + '<span></span>');
@@ -164,10 +236,12 @@ $(document).ready(function(){
 		$('#languages-used ul').append("<li>"+value+"</li>");
 		animText(index);
 	});
-	//console.log(newArr2);
-	high = Object.keys(newArr2).sort(function(a,b){return newArr2[a]-newArr2[b]}).reverse();
-	$('#popular-language p').html(high[0] + "<span></span>");
-	$('#popular-language p span').text(' ['+newArr2[high[0]] + ' bytes]');
+	high = Object.keys(newArr2).sort(function(a,b)
+		{
+			return newArr2[a]-newArr2[b]
+		}).reverse();
+	$('#popular-language p').html(high[0] + "<span class='badge badge-secondary'></span>");
+	$('#popular-language p span').text(' ['+newArr2[high[0]] + ' bytes written]');
 
 
 	//REPOS
