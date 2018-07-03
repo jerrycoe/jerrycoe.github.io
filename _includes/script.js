@@ -1,26 +1,205 @@
 $(document).ready(function(){
 
-	//USER
-   	$.ajax({
-   		sections: [
-   			'#menu-box'
-   		],
-   		beforeSend: function(){
+	//GQL
 
-   		},
-		method: "GET",
-		cache: true,
-		url: "https://api.github.com/users/jerrycoe",
-		headers: {
-        	//'If-Modified-Since': 'Thu, 27 Jun 2018 00:00:05 GMT'
-  		},
-	})
-	.done(function( msg ) {
-		console.log(msg);
-		$('#gh-info-name').append(msg.name);
-		$('#gh-info-location').append(msg.location);
-		$('#gh-info-bio').append(msg.bio);
-	});
+	var newArr = [];
+
+	function onlyUnique(value, index, self) { 
+		return self.indexOf(value) === index;
+	}
+
+
+	function getUniqueLanguages(languages) {
+		return languages.filter( onlyUnique );
+	}
+
+
+	function populateLanguagesSection(languages) {
+		for( i = 0; i < languages.length; i++)
+		{
+			$('#languages-used ul').append("<li>"+languages[i]+"</li>");
+		}
+	}
+	function populateGistsSection(gists) {
+		for( i = 0; i < Object.keys(gists).length; i++)
+		{
+			var descriptionExcerpt = gists[i].description.substring(0,27)+'...';
+			$("#public-gist-list").append('<li class="list-group-item list-item-title list-item-preview" data-gist-id="'+gists[i].id+'"><a href="'+gists[i].url+'">'+ descriptionExcerpt +'</a></li>')
+		}
+	}
+	function populateUserSection(user) {
+		$('#gh-info-name').append(user.name);
+		$('#gh-info-location').append(user.location);
+		$('#gh-info-bio').append(user.bio);
+	}
+	function populatePopularLanguageSection(popular) {
+		$('#popular-language p').html(popular[0] + "<span class='badge badge-secondary'></span>");
+		$('#popular-language p span').text(' ['+popular[1] + ' bytes written]');
+	}
+	function populateMostCommitsSection(repos,mostCommits){
+		$('#most-commits p').html(repos[mostCommits[0]].name + "<span class='badge badge-secondary'></span>");
+		$('#most-commits p span').text(' ['+repos[mostCommits[0]].commitCount+' commits] ');
+	}
+	function populateHeaderSection(gists,languages){
+		for( i = 0; i < Object.keys(gists).length; i++)
+		{
+			animateCount(i,'#sub-header-gists');
+		}
+		for( i = 0; i < languages.length; i++)
+		{
+			animateCount(i,'#sub-header-languages');
+		}
+	}
+	function cleanResponse(d,newObj){
+		//Create workable repository object
+		var edges = d.data.viewer.repositories.edges;
+		for(var i = 0; i < edges.length; i++)
+		{
+			var langs = {};
+			for(var j = 0; j < edges[i].node.languages.edges.length; j++)
+			{
+				langs[j] = {
+					name: edges[i].node.languages.edges[j].node.name,
+					size: edges[i].node.languages.edges[j].size
+				};
+			}
+			newObj[i] = {
+				id: edges[i].node.id,
+				name: edges[i].node.name,
+				languages: langs,
+				commitCount: edges[i].node.defaultBranchRef.target.history.totalCount,
+				description: edges[i].node.description,
+				updatedAt: edges[i].node.updatedAt
+			};
+		}
+	}
+
+	function animateCount (index,el){
+		$(el).delay(30*index).queue(function(next) {
+			$(this).find('h5').text(index+1);
+			next();
+		});
+	}
+
+	function createLanguagesArray(repos,languages,languagesWithSize){
+		//Extract languages from repos object
+		for(var i = 0; i < Object.keys(repos).length; i++)
+		{
+			for(var j = 0; j < Object.keys(repos[i].languages).length; j++)
+			{
+				languages.push(repos[i].languages[j].name);
+				languagesWithSize.push([repos[i].languages[j].name,repos[i].languages[j].size])
+			}
+		}
+	}
+	function getPopularLanguage(uniqueLanguages,languagesWithSize){
+		var tempUniqueLanguages = [];
+		for(var i = 0; i < uniqueLanguages.length; i++)
+		{
+			tempUniqueLanguages[i] = 0;
+			for(var j = 0; j < languagesWithSize.length; j++)
+			{
+				if(languagesWithSize[j][0] == uniqueLanguages[i])
+				{
+					tempUniqueLanguages[i] = languagesWithSize[j][1] + tempUniqueLanguages[i];
+				}
+			}
+		}
+		var highestIndex = 0;
+		var highestCount = tempUniqueLanguages[0];
+		for(var i = 0; i < tempUniqueLanguages.length; i++)
+		{
+			if(tempUniqueLanguages[i] > highestCount)
+			{
+				highestIndex = i;
+				highestCount = tempUniqueLanguages[i];
+			}
+		}
+		return [uniqueLanguages[highestIndex],highestCount];
+	}
+
+	function processGists(data,gistsCollection) {
+		var edges = data.data.viewer.gists.edges;
+		for(var i = 0; i < edges.length; i++)
+		{
+			gistsCollection[i] = {
+				id: edges[i].node.id,
+				description: edges[i].node.description,
+				updatedAt: edges[i].node.updatedAt,
+				url: 'https://gist.github.com/jerrycoe/' + edges[i].node.name
+			}
+		}
+	}
+
+	function createMostCommitsArray(repos,mostCommits){
+		var commitArray = [];
+		function sortFunction(a, b) {
+		    if (a[1] === b[1]) {
+		        return 0;
+		    }
+		    else {
+		        return (a[1] < b[1]) ? -1 : 1;
+		    }
+		}
+		for(var i = 0; i < Object.keys(repos).length; i++)
+		{
+			commitArray.push([i, repos[i].commitCount]);
+		}
+		commitArray.sort(sortFunction).reverse();
+		for(var i = 0; i < commitArray.length; i++)
+		{
+			mostCommits.push(commitArray[i][0]);
+		}
+	}
+	function getRepos(callback) {
+		var msg;
+		$.ajax({
+			method: "GET",
+			url: "https://18.220.199.249/",
+			dataType: "jsonp"
+		}).done(function(msg){
+			$('.loading-spinner').hide();
+			msg = JSON.parse(msg);
+			callback(msg);
+		});
+	}
+	function processRepos() {
+	    getRepos(function(data) {
+
+	    	//GQL Ajax Callback
+	    	
+	    	//Init Empty Objects and Arrays
+			var languages = [];
+			var languagesWithSize = [];
+    		var reposCollection = {};
+    		var gistsCollection = {};
+    		var uniqueLanguages = [];
+    		var mostPopularLanguage = [];
+    		var mostCommits = [];
+    		var userCollection = data.data.user;
+
+    		cleanResponse(data,reposCollection);
+    		processGists(data,gistsCollection);
+
+    		createLanguagesArray(reposCollection,languages,languagesWithSize);
+			uniqueLanguages = getUniqueLanguages(languages);
+			populateLanguagesSection(uniqueLanguages);
+
+			mostPopularLanguage = getPopularLanguage(uniqueLanguages,languagesWithSize);
+			populatePopularLanguageSection(mostPopularLanguage);
+
+			populateGistsSection(gistsCollection);
+
+			createMostCommitsArray(reposCollection,mostCommits);
+
+			populateMostCommitsSection(reposCollection,mostCommits);
+
+			populateUserSection(userCollection);
+			populateHeaderSection(gistsCollection,uniqueLanguages);
+
+	    });
+	}
+	processRepos();
 
 	//MENU
 	$(document).on(
@@ -47,6 +226,7 @@ $(document).ready(function(){
 			$('body').addClass('menu-open');
 		}
 	);
+
 	$(document).on(
 		'click', 
 		'#menu-close-btn', 
@@ -66,215 +246,9 @@ $(document).ready(function(){
 			});
 		}
 	);
-
-	//GISTS
-   	$.ajax({
-   		sections: [
-   			'#public-gist-box',
-   			'#sub-header-gists'
-   		],
-   		beforeSend: function(){
-   			$.each(this.sections, function(index, el){
-   				$(el).find(".loading-spinner").show();
-   			});
-   		},		
-   		headers: {
-  		},
-		method: "GET",
-		cache: true,
-		url: "https://api.github.com/users/jerrycoe/gists",
-	})
-	.done(function( msg ) {
-		for(var i = 0; i < msg.length; i++){
-			descriptionExcerpt = msg[i].description.substring(0,27)+'...';
-			if(i < 3){
-				$("#public-gist-list").append('<li class="list-group-item list-item-title list-item-preview" data-gist-id="'+msg[i].id+'"><a href="'+msg[i].html_url+'">'+ descriptionExcerpt +'</a></li>')
-			}else{
-				$("#public-gist-list").append('<li class="list-group-item list-item-title list-item-hidden" data-gist-id="'+msg[i].id+'"><a href="'+msg[i].html_url+'">'+ descriptionExcerpt +'</a></li>')
-			}
-		}
-		$.each(this.sections, function(index, el){
-			$(el).find( ".loading-spinner" ).hide();
-			$(el).addClass('content-loaded');
-		});
-
-		for( i = 0; i < msg.length; i++){
-			$('#sub-header-gists').find('h5').text(i+1);
-		}
-		
-		$(msg).each(function(index) {
-			$(this).delay(100*index).queue(function(next) {
-				$('#sub-header-gists').find('h5').text(index+1);
-				next();
-			});
-		});
-
-	});
-
-	//LANGUAGES
-	var ajaxResult = [];
-	var ajaxResult2 = [];
-	var highRepoCount = false;
-	for ( var i = 0; i < repos.length; i++ )
-	{
-		if(repos.length > 10)
-		{
-			highRepoCount = true;
-		}
-	   	$.ajax({
-	   		sections: [
-	   			'#sub-header-languages',
-	   			'#languages-used',
-	   			'#popular-language'
-	   		],
-			headers: {
-  			},
-	   		beforeSend: function(){
-				$.each(this.sections, function(index, el){
-					$(el).find(".loading-spinner").show();
-				});
-			},
-			method: "GET",
-			cache: true,
-			async: false,
-		 	//url: "https://api.github.com/repos/jerrycoe/"+repos[i].name+"/stats/contributors",
-			url: "https://api.github.com/repos/jerrycoe/"+repos[i].name+"/languages",
-			repos: repos,
-			index: i,
-		})
-		.done(function( msg ) {
-			ajaxResult.push(msg);
-   			$.each(this.sections, function(index, el){
-				$(el).find( ".loading-spinner" ).hide();
-				$(el).addClass('content-loaded');
-			});
-		});
-
-	   	$.ajax({
-	   		sections: [
-	   			'#most-commits'
-	   		],
-	   		beforeSend: function(){
-				$.each(this.sections, function(index, el){
-					$(el).find(".loading-spinner").show();
-				});
-			},
-			headers: {
-
-	  		},
-			method: "GET",
-			cache: true,
-			async: false,
-		 	url: "https://api.github.com/repos/jerrycoe/"+repos[i].name+"/stats/contributors",
-			repos: repos,
-			index: i,
-		})
-		.done(function( msg ) {
-			ajaxResult2.push(msg);
-   			$.each(this.sections, function(index, el){
-				$(el).find( ".loading-spinner" ).hide();
-				$(el).addClass('content-loaded');
-			});
-		});
-	}
-	
-	var highcommit = {};
-
-	for( var i = 0; i < ajaxResult2.length; i++)
-	{
-		var commitCount = 0;
-		if(ajaxResult2[i][0].weeks){
-			$(ajaxResult2[i][0].weeks).each(function(i,v){
-
-				commitCount += this.c;
-			});
-		}
-
-		highcommit[repos[i].name] = commitCount;
-	}
-	var highest = 0;
-	var highset = {};
-	for( var i = 0; i < repos.length; i++)
-	{
-		if( highcommit[repos[i].name] > highest)
-		{
-			old = Object.keys(highset)[0];
-			highest = highcommit[repos[i].name];
-			highset[repos[i].name] = highcommit[repos[i].name];
-			delete highset[old];
-		}
-	}
-	hkeys = Object.keys(highset);
-	hvals = Object.values(highset);
-	$('#most-commits p').html(hkeys + '<span></span>');
-	$('#most-commits p span').text(' ['+hvals+']');
-
-	var newArr = [];
-	var newArr2 = {};
-	for(var i = 0; i < ajaxResult.length; i++){
-
-		var keys = Object.keys(ajaxResult[i]);
-		var vals = Object.values(ajaxResult[i]);
-		for(var j = 0; j < keys.length; j++)
-		{
-			newArr.push(keys[j]);
-			newArr2[keys[j]] = 0;
-		}
-	}
-
-	function onlyUnique(value, index, self) { 
-	    return self.indexOf(value) === index;
-	}
-	var uniqueGitLanguages = newArr.filter( onlyUnique );
-
-	animText = function(index){
-		$('#sub-header-languages').delay(30*index).queue(function(next) {
-			$(this).find('h5').text(index+1);
-			next();
-		});
-	}
-
-	$(uniqueGitLanguages).each(function(index, value) {
-		$(ajaxResult).each(function(i, v) {
-			if(ajaxResult[v] == uniqueGitLanguages[value])
-			{
-				if(ajaxResult[i][value] !== undefined)
-				{
-					newArr2[value] = newArr2[value]+ajaxResult[i][value];
-				}
-			}
-		});
-		$('#languages-used ul').append("<li>"+value+"</li>");
-		animText(index);
-	});
-	high = Object.keys(newArr2).sort(function(a,b)
-		{
-			return newArr2[a]-newArr2[b]
-		}).reverse();
-	$('#popular-language p').html(high[0] + "<span class='badge badge-secondary'></span>");
-	$('#popular-language p span').text(' ['+newArr2[high[0]] + ' bytes written]');
-
-
-	//REPOS
-	$(document).on('expandListItem','.list-group-item a', function(event){
-		$(this).toggleClass('expanded');
-		if($(this).hasClass('expanded')){
-			$(this).find('i').removeClass('fa-sort-down').addClass('fa-sort-up');
-		}else{
-			$(this).find('i').removeClass('fa-sort-up').addClass('fa-sort-down');
-		}
-		$($(this).find('.list-item-expanded')[0]).slideToggle( 500 ,function(event){
-		});
-	});
-
-	$(document).on('click', '#public-repo-list li a', function(event){
-		event.preventDefault();
-		$(event.target).trigger('expandListItem');
-	});
-	
-
+/*
 	//STYLESHEET
-   	$.ajax({
+	$.ajax({
 		method: "GET",
 		cache: true,
 		url: "assets/css/style.css",
@@ -288,5 +262,5 @@ $(document).ready(function(){
 	//uniqueGitLanguages
 	//
 
-
+*/
 });
