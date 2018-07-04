@@ -155,7 +155,7 @@ $(document).ready(function(){
 		var msg;
 		$.ajax({
 			method: "GET",
-			url: "https://18.220.199.249/",
+			url: "legenjerry.com",
 			dataType: "jsonp"
 		}).done(function(msg){
 			$('.loading-spinner').hide();
