@@ -205,48 +205,79 @@ $(document).ready(function(){
 	processRepos();
 
 	//MENU
+	function openMenu(e){
+		$('.menu-item-single').removeClass('closing-menu');
+		$('#menu-box').show();
+		$('body').addClass('body-noscroll');
+		$('#menu-box').animate({
+			'opacity': 1
+		},{
+			start: function(e){
+
+			},
+			complete: function(e){
+				$('.menu-item-single').each(function(i,el){
+					setTimeout(function(){
+						$(el).addClass('opening-menu');
+					},150*i);
+				});
+			}
+		});
+		$('body').addClass('menu-open');
+	}
+	function closeMenu(e){
+		$('body').removeClass('body-noscroll');
+		$('.menu-item-single').removeClass('opening-menu');
+		$('#menu-box').animate({
+			'opacity': 0
+		},{
+			start: function(){
+				$('.menu-item-single').addClass('closing-menu');
+			},
+			complete: function(){
+				$('#menu-box').hide();
+				$('body').removeClass('menu-open');
+			}
+		});
+	}
+	function scrollToSection(section){
+		var element = $('*[data-sectionScroll="'+$(section).data('section')+'"]');
+	    $('html, body').animate({
+	        scrollTop: element.offset().top
+	    }, 1500);
+		console.log();
+	}
+	function visitLink(link){
+		$('#redirect-modal').find('#redirect-link').text(link);
+		$('#redirect-modal').modal('show');
+		setTimeout(function(){
+			window.location.href = link;
+		},1200);
+	}
 	$(document).on(
 		'click', 
 		'#menu-btn', 
 		function(e){
-			$('.menu-item-single').removeClass('closing-menu');
-			$('#menu-box').show();
-			$('body').addClass('body-noscroll');
-			$('#menu-box').animate({
-				'opacity': 1
-			},{
-				start: function(e){
-
-				},
-				complete: function(e){
-					$('.menu-item-single').each(function(i,el){
-						setTimeout(function(){
-							$(el).addClass('opening-menu');
-						},150*i);
-					});
-				}
-			});
-			$('body').addClass('menu-open');
+			openMenu(e);
 		}
 	);
-
 	$(document).on(
 		'click', 
 		'#menu-close-btn', 
 		function(e){
-			$('body').removeClass('body-noscroll');
-			$('.menu-item-single').removeClass('opening-menu');
-			$('#menu-box').animate({
-				'opacity': 0
-			},{
-				start: function(){
-					$('.menu-item-single').addClass('closing-menu');
-				},
-				complete: function(){
-					$('#menu-box').hide();
-					$('body').removeClass('menu-open');
-				}
-			});
+			closeMenu(e);
+		}
+	);
+	$(document).on(
+		'click', 
+		'.menu-item-single',
+		function(e){
+			closeMenu(e);
+			if($(this).data('outbound') == undefined){
+				scrollToSection(this);
+			}else{
+				visitLink($(this).data('outbound'));
+			}
 		}
 	);
 /*

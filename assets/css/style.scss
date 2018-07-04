@@ -191,6 +191,7 @@ body.menu-open{
 	z-index: 13;
 	padding-top:40px;
 	.menu-item-single{
+		cursor:pointer;
 		opacity: 0;
 		//-webkit-transition: all 1s ease;
 		transition: all .5s ease;
@@ -309,6 +310,8 @@ body.menu-open{
 	}
 }
 #public-repo-list,#public-gist-list{
+	padding-top: 30px;
+	background-color: #E8EFF6;
 	color:$dark-blue;
 	li{
 		background-color: transparent;
@@ -388,6 +391,8 @@ body.menu-open{
 }
 .stats-item-box{
 	min-height:100px;
+	background-color: #E8EFF6;
+	padding-top:30px;
 }
 .stats-item-box,.list-item-title{
 	//border-right: 3px solid $lightest-blue;
@@ -497,6 +502,16 @@ footer{
 		color: $lightest-blue;
 		font-family: $font-stack-header;
 	}
+}
+#redirect-modal{
+    position: fixed;
+    top: 50% !important;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    .modal-body{
+    	font-size: .9em;
+    }
 }
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
