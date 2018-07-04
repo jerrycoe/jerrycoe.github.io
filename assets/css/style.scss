@@ -335,6 +335,10 @@ body.menu-open{
 		}
 	}
 }
+#public-repo-list li:last-child{
+	border-right: none;
+	border-bottom: none;
+}
 #public-repo-list li a,#public-gist-list li a, #stats-box h6{
 		font-family: $font-stack-header;
 		color: $lightest-blue;
@@ -414,16 +418,23 @@ body.menu-open{
 	padding: 0;
 	position:relative;
 	z-index: 10;
+	margin-top:30px;
+
+		display:flex;
 	p{
-		margin-top:50px;
-		background-color: $dark-blue;
-		padding: 50px 15px;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+
 		color: $lightest-blue;
 		font-size: .9em;
 		font-family: $font-stack-header;
 		font-weight:700;
 		letter-spacing: .75px;
 		text-align: center;
+		width: 100%;
 	}
 }
 
@@ -480,12 +491,24 @@ footer{
 #footer-repo-info{
 	display:inline-block;
 	p{
-		margin-left: 20px;
+		margin-left: 0;
+		font-size:.8em;
 		margin-bottom: 0;
-		color: $medium-light-blue;
+		color: $lightest-blue;
 		font-family: $font-stack-header;
 	}
 }
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+@media (min-width: 576px) {
+	#menu-btn{
+		display:none;
+	}
+
+}
+@media (min-width: 767px) {
+	#quote-box{
+		border:1px solid $lightest-blue;	
+	}
+}

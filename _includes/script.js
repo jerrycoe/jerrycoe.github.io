@@ -1,9 +1,6 @@
 $(document).ready(function(){
 
 	//GQL
-
-	var newArr = [];
-
 	function onlyUnique(value, index, self) { 
 		return self.indexOf(value) === index;
 	}
@@ -21,10 +18,16 @@ $(document).ready(function(){
 		}
 	}
 	function populateGistsSection(gists) {
-		for( i = 0; i < Object.keys(gists).length; i++)
+		for( i = 0; i < 3; i++)
 		{
 			var descriptionExcerpt = gists[i].description.substring(0,27)+'...';
-			$("#public-gist-list").append('<li class="list-group-item list-item-title list-item-preview" data-gist-id="'+gists[i].id+'"><a href="'+gists[i].url+'">'+ descriptionExcerpt +'</a></li>')
+			$("#public-gist-list")
+				.append('<li class="list-group-item list-item-title list-item-preview" data-gist-id="'+gists[i].id+'"> ' +
+					'<a href="'+gists[i].url+'">'+ 
+						descriptionExcerpt +
+				  		'<div class="list-item-expanded"><p>' +
+							gists[i].description +
+						'</p></div></a></li>');
 		}
 	}
 	function populateUserSection(user) {

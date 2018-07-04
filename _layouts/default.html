@@ -39,7 +39,7 @@
 						<div class="menu-item-single col-md-3">
 							<div class="card">
 								<div class="card-body">
-								    <h5 class="card-title"><i class="fas fa-database"></i>repositories</h5>
+								    <h5 class="card-title"><i class="fas fa-database"></i>repos</h5>
 								    <h6 class="card-subtitle mb-2">::public</h6>
 									<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 								    <a href="#" class="card-link">Card link</a>
@@ -72,7 +72,7 @@
 						<div class="menu-item-single col-md-3">
 							<div class="card">
 								<div class="card-body">
-								    <h5 class="card-title"><i class="fab fa-git"></i>github.com/jerrycoe</h5>
+								    <h5 class="card-title"><i class="fab fa-git"></i>@jerrycoe</h5>
 								    <h6 class="card-subtitle mb-2">view the code</h6>
 									<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 								    <a href="#" class="card-link">Card link</a>
@@ -145,15 +145,6 @@
 										  			<p>
 										  				{{ repos.description }}	
 										  			</p>	
-										  		</div>
-										  	</a>
-										</li>
-										{% else %}
-										<li class="list-group-item list-item-title list-item-hidden" data-repo-id="{{ repos.id }}">
-										  	<a href="{{ repos.html_url }}">{{ repos.name }}
-										  		
-										  		<div class="list-item-expanded">
-										  			{{ repos.description }}
 										  		</div>
 										  	</a>
 										</li>

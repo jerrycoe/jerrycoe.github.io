@@ -53,7 +53,7 @@
 		iTerm
 	</li>
 	<li>
-		Github Public API
+		Github GraphQL API
 	</li>
 </ul>
 
