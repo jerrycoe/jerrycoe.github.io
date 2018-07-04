@@ -175,22 +175,17 @@ body.menu-open{
 		font-family: $font-stack-header;
 		margin-bottom: 0;
 		font-size: .7em;
+		color: $medium-light-blue;
 	}
 }
 #info-inner{
 	float:left;
 }
-#gh-info-name{
-	color: $medium-light-blue;
-}
-#gh-info-location,#gh-info-bio{
-	color: $lightest-blue;
-}
 #menu-items{
 	position: relative;
 	z-index: 13;
 	padding-top:40px;
-	padding-bototm:40px;
+	padding-bototm:100px;
 	.menu-item-single{
 		cursor:pointer;
 		opacity: 0;
