@@ -1,0 +1,24 @@
+{
+  "name": "jerrycoe.github.io",
+  "version": "1.0.0",
+  "description": "portfolio of github projects",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jerrycoe/jerrycoe.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jerrycoe/jerrycoe.github.io/issues"
+  },
+  "homepage": "https://github.com/jerrycoe/jerrycoe.github.io#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-minify": "^3.1.0",
+    "gulp-watch": "^5.0.0"
+  }
+}
