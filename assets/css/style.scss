@@ -189,7 +189,6 @@ body.menu-open{
 	.menu-item-single{
 		cursor:pointer;
 		opacity: 0;
-		//-webkit-transition: all 1s ease;
 		transition: all .5s ease;
 		&.closing-menu{
 			-webkit-transform: scale(3);
@@ -235,7 +234,6 @@ body.menu-open{
 }
 @for $i from 1 through 10 {
     #menu-items .menu-item-single.opening-menu:nth-child(#{$i}n) {
-       // animation-delay: #{$i*1}s;
         opacity: 1;
     }
 }
