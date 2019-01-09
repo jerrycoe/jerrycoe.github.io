@@ -69,3 +69,10 @@
 		ColorSchemeDesigner.com & COLOURlovers.com
 	</li>
 </ul>
+
+### To Do:
+<ul>
+	<li>
+		Update layout and design
+	</li>
+</ul>
